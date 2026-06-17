@@ -1,0 +1,153 @@
+<view class="page">
+  <!-- 头部 -->
+  <view class="list-header">
+    <view class="row">
+      <view>
+        <text class="list-title">账单</text>
+        <text class="list-sub">{{selectedMonth}}</text>
+      </view>
+      <view class="btn-group">
+        <button class="share-btn-sm" open-type="share">📤</button>
+        <button class="btn-sm btn-sm-gray" bindtap="toggleSearch">{{showSearch ? '收起' : '搜索'}}</button>
+        <button class="btn-sm btn-sm-gray" bindtap="exportBills" loading="{{exporting}}">导出</button>
+        <button class="btn-sm btn-sm-green" bindtap="goAdd">＋ 新增</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="card" wx:if="{{showSearch}}">
+    <input
+      class="search-input"
+      placeholder="搜索备注、分类关键词..."
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+      bindconfirm="doSearch"
+    />
+    <view class="search-amount-row">
+      <input class="search-amount" type="digit" placeholder="最低金额" value="{{searchMinAmount}}" bindinput="onMinAmountInput" />
+      <text class="search-amount-sep">—</text>
+      <input class="search-amount" type="digit" placeholder="最高金额" value="{{searchMaxAmount}}" bindinput="onMaxAmountInput" />
+    </view>
+    <view class="search-btns">
+      <button size="mini" class="btn-search" bindtap="doSearch">搜索</button>
+      <button size="mini" class="btn-clear" bindtap="clearSearch">清除</button>
+    </view>
+    <view wx:if="{{isSearching}}" class="search-tip">搜索结果：{{count}} 条</view>
+  </view>
+
+  <!-- 月份选择 -->
+  <view class="month-card">
+    <view class="month-row">
+      <text class="month-label">选择月份</text>
+      <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
+        <view class="month-picker">{{selectedMonth}}  ▼</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 汇总卡片 -->
+  <view class="summary-card">
+    <view class="summary-top">
+      <text>本月统计</text>
+      <text>{{count}} 笔</text>
+    </view>
+    <view class="summary-list">
+      <view class="summary-item-list">
+        <text>收入</text>
+        <text>¥{{income}}</text>
+      </view>
+      <view class="summary-item-list">
+        <text>支出</text>
+        <text>¥{{expense}}</text>
+      </view>
+      <view class="summary-item-list">
+        <text>结余</text>
+        <text>¥{{balance}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 账单列表 -->
+  <block wx:if="{{bills.length}}">
+    <view class="bill-card {{item.type === 'income' ? 'bill-card-income' : 'bill-card-expense'}}" wx:for="{{bills}}" wx:key="_id">
+      <view class="bill-card-top">
+        <view>
+          <text class="bill-category">{{item.category}}</text>
+          <text class="bill-type-tag {{item.type === 'income' ? 'bill-type-tag-income' : 'bill-type-tag-expense'}}">
+            {{item.type === 'income' ? '收入' : '支出'}}
+          </text>
+        </view>
+        <text class="bill-amount {{item.type === 'income' ? 'amount-income' : 'amount-expense'}}">
+          {{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}
+        </text>
+      </view>
+      <view class="bill-meta">
+        <view>
+          <text class="bill-date">{{item.date}}</text>
+          <text class="bill-note" wx:if="{{item.note}}">{{item.note}}</text>
+        </view>
+        <view class="bill-actions">
+          <button class="bill-action-btn btn-sm-green" data-item="{{item}}" bindtap="openEdit">编辑</button>
+          <button class="bill-action-btn btn-danger" data-id="{{item._id}}" bindtap="deleteBill">删除</button>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="card">
+    <text class="empty-text">当前月份暂无账单</text>
+  </view>
+</view>
+
+<!-- 编辑弹窗 -->
+<view class="modal-mask" wx:if="{{showEditModal}}" bindtap="closeEdit"></view>
+
+<!-- 导出 Canvas（隐藏） -->
+<canvas type="2d" id="exportCanvas" style="position:fixed;left:-9999px;top:-9999px;width:750rpx;height:1000rpx;"></canvas>
+<view class="modal-card" wx:if="{{showEditModal}}">
+  <view class="modal-header">
+    <text class="modal-title">编辑账单</text>
+    <view class="modal-close" bindtap="closeEdit">✕</view>
+  </view>
+
+  <radio-group bindchange="onEditTypeChange" class="type-group">
+    <label class="type-item {{editType === 'expense' ? 'type-item-active' : ''}}">
+      <radio value="expense" checked="{{editType === 'expense'}}" />
+      <text class="{{editType === 'expense' ? 'type-expense-tab active' : 'type-expense-tab'}}">支出</text>
+    </label>
+    <label class="type-item {{editType === 'income' ? 'type-item-active' : ''}}">
+      <radio value="income" checked="{{editType === 'income'}}" />
+      <text class="{{editType === 'income' ? 'type-income-tab active' : 'type-income-tab'}}">收入</text>
+    </label>
+  </radio-group>
+
+  <view class="field">
+    <text class="label">金额</text>
+    <input class="input" type="digit" placeholder="请输入金额" value="{{editAmount}}" bindinput="onEditAmountInput" />
+  </view>
+
+  <view class="field">
+    <text class="label">分类</text>
+    <picker mode="selector" range="{{editType === 'income' ? incomeCategories : expenseCategories}}" value="{{editCategoryIndex}}" bindchange="onEditCategoryChange">
+      <view class="picker">{{editCategory}}</view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <text class="label">日期</text>
+    <picker mode="date" value="{{editDate}}" bindchange="onEditDateChange">
+      <view class="picker">{{editDate}}</view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <text class="label">备注</text>
+    <textarea class="input" style="min-height:120rpx;width:100%;" placeholder="选填" value="{{editNote}}" bindinput="onEditNoteInput"></textarea>
+  </view>
+
+  <view class="modal-btns">
+    <button class="modal-btn-cancel" bindtap="closeEdit">取消</button>
+    <button class="modal-btn-save" bindtap="saveEdit">保存修改</button>
+  </view>
+</view>

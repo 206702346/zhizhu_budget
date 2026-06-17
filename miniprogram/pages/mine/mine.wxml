@@ -1,0 +1,267 @@
+<view class="page mine-page">
+  <!-- 头像区 -->
+  <view class="mine-hero">
+    <view class="hero-top">
+      <image class="avatar-img" src="/images/avatar.jpg" mode="aspectFill"></image>
+      <view class="hero-info">
+        <text class="hero-title">我的账本</text>
+        <text class="hero-desc">记录每一笔，掌控每一天</text>
+      </view>
+      <button class="share-btn-white" open-type="share">📤</button>
+    </view>
+    <view class="hero-tags">
+      <text>💚 微信小程序</text>
+      <text>☁️ 云开发</text>
+      <text>📊 可视化图表</text>
+      <text>🔒 数据隔离</text>
+    </view>
+  </view>
+
+  <!-- 统计条 -->
+  <view class="mine-stat-bar">
+    <view class="mine-stat-item">
+      <text class="mine-stat-num">{{totalCount}}</text>
+      <text class="mine-stat-label">总账单</text>
+    </view>
+    <view class="mine-stat-line"></view>
+    <view class="mine-stat-item">
+      <text class="mine-stat-num">{{monthCount}}</text>
+      <text class="mine-stat-label">本月</text>
+    </view>
+    <view class="mine-stat-line"></view>
+    <view class="mine-stat-item">
+      <text class="mine-stat-num">¥{{monthBalance}}</text>
+      <text class="mine-stat-label">结余</text>
+    </view>
+  </view>
+
+  <!-- 预算 -->
+  <view class="card">
+    <view class="section-head">
+      <text class="section-title">💰 本月预算</text>
+      <text class="section-sub">{{budgetMonth}}</text>
+    </view>
+
+    <block wx:if="{{budgetSaved > 0}}">
+      <view class="budget-info">
+        <view class="budget-row">
+          <text>预算金额</text>
+          <text class="budget-total">¥{{budgetSaved}}</text>
+        </view>
+        <view class="budget-row">
+          <text>已支出</text>
+          <text class="budget-spent">¥{{monthExpense}}</text>
+        </view>
+        <view class="budget-row">
+          <text>剩余</text>
+          <text class="{{budgetOverClass}}">¥{{budgetRemainText}}</text>
+        </view>
+      </view>
+
+      <view class="budget-bar-wrap">
+        <view class="budget-bar">
+          <view class="budget-bar-inner {{budgetOver ? 'bar-over' : ''}}" style="width: {{budgetPercent}}%;"></view>
+        </view>
+        <text class="budget-percent {{budgetOver ? 'budget-over' : ''}}">{{budgetPercent}}%</text>
+      </view>
+
+      <view wx:if="{{budgetOver}}" class="budget-warn">⚠️ 本月支出已超出预算</view>
+    </block>
+
+    <view wx:else class="budget-empty">
+      <text class="empty-text">暂未设置本月预算</text>
+    </view>
+
+    <button class="budget-btn" size="mini" bindtap="openBudgetEdit">
+      {{budgetSaved > 0 ? '修改预算' : '设置预算'}}
+    </button>
+  </view>
+
+  <!-- 分类管理 -->
+  <view class="card">
+    <view class="section-head">
+      <text class="section-title">📂 分类管理</text>
+      <text class="section-sub">自定义</text>
+    </view>
+
+    <view class="category-mgmt-row">
+      <view>
+        <text class="category-mgmt-label">支出分类</text>
+        <text class="category-mgmt-list">{{expenseCategories}}</text>
+      </view>
+      <button class="category-mgmt-btn" size="mini" data-type="expense" bindtap="openCategoryEdit">编辑</button>
+    </view>
+    <view class="category-mgmt-row">
+      <view>
+        <text class="category-mgmt-label">收入分类</text>
+        <text class="category-mgmt-list">{{incomeCategories}}</text>
+      </view>
+      <button class="category-mgmt-btn" size="mini" data-type="income" bindtap="openCategoryEdit">编辑</button>
+    </view>
+  </view>
+
+  <!-- 本月数据 -->
+  <view class="card">
+    <view class="section-head">
+      <text class="section-title">📋 本月数据</text>
+      <text class="section-sub">实时</text>
+    </view>
+
+    <view class="data-row">
+      <view>
+        <text class="data-label">本月收入</text>
+        <text class="data-value income-text">¥{{monthIncome}}</text>
+      </view>
+      <text class="data-note">收入汇总</text>
+    </view>
+    <view class="data-row">
+      <view>
+        <text class="data-label">本月支出</text>
+        <text class="data-value expense-text">¥{{monthExpense}}</text>
+      </view>
+      <text class="data-note">支出汇总</text>
+    </view>
+    <view class="data-row">
+      <view>
+        <text class="data-label">本月结余</text>
+        <text class="data-value">¥{{monthBalance}}</text>
+      </view>
+      <text class="data-note">收入 - 支出</text>
+    </view>
+  </view>
+
+  <!-- 功能模块 -->
+  <view class="card">
+    <view class="section-head">
+      <text class="section-title">🧩 功能模块</text>
+    </view>
+    <view class="feature-grid">
+      <view class="feature-card">
+        <view class="feature-icon green">＋</view>
+        <text class="feature-name">记一笔</text>
+        <text class="feature-desc">快速记录收支</text>
+      </view>
+      <view class="feature-card">
+        <view class="feature-icon red">¥</view>
+        <text class="feature-name">账单列表</text>
+        <text class="feature-desc">查看与编辑</text>
+      </view>
+      <view class="feature-card">
+        <view class="feature-icon blue">📅</view>
+        <text class="feature-name">月份筛选</text>
+        <text class="feature-desc">按月查询统计</text>
+      </view>
+      <view class="feature-card">
+        <view class="feature-icon orange">📊</view>
+        <text class="feature-name">图表分析</text>
+        <text class="feature-desc">饼图 + 趋势图</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 使用流程 -->
+  <view class="card">
+    <view class="section-head">
+      <text class="section-title">📝 使用流程</text>
+    </view>
+    <view class="timeline">
+      <view class="timeline-item">
+        <view class="timeline-dot"></view>
+        <view>
+          <text class="timeline-title">设置预算</text>
+          <text class="timeline-desc">设定月度支出上限，控制消费。</text>
+        </view>
+      </view>
+      <view class="timeline-item">
+        <view class="timeline-dot"></view>
+        <view>
+          <text class="timeline-title">记录账单</text>
+          <text class="timeline-desc">每笔消费即时记录，永不遗漏。</text>
+        </view>
+      </view>
+      <view class="timeline-item">
+        <view class="timeline-dot"></view>
+        <view>
+          <text class="timeline-title">查看分析</text>
+          <text class="timeline-desc">图表直观展示，掌握消费结构。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="card" style="margin-bottom:40rpx;">
+    <view class="section-head">
+      <text class="section-title">💡 关于项目</text>
+    </view>
+    <text class="about-text">
+      基于微信小程序 + 云开发构建的全功能个人记账应用。支持收支记录、月度预算、分类统计图表、数据搜索等功能。采用云函数保障多用户数据隔离，Canvas 2D 实现可视化图表。
+    </text>
+  </view>
+</view>
+
+<!-- 分类编辑弹窗 -->
+<view class="modal-mask" wx:if="{{showCategoryEdit}}" bindtap="closeCategoryEdit"></view>
+<view class="modal-card" wx:if="{{showCategoryEdit}}">
+  <view class="modal-header">
+    <text class="modal-title">{{categoryEditType === 'expense' ? '编辑支出分类' : '编辑收入分类'}}</text>
+    <view class="modal-close" bindtap="closeCategoryEdit">✕</view>
+  </view>
+
+  <view class="category-tags">
+    <view class="category-tag" wx:for="{{editingCategories}}" wx:key="*this">
+      <text>{{item}}</text>
+      <text class="category-tag-del" data-index="{{index}}" bindtap="removeCategory">✕</text>
+    </view>
+  </view>
+
+  <view class="field">
+    <text class="label">添加新分类</text>
+    <view class="category-add-row">
+      <input
+        class="input category-add-input"
+        placeholder="输入分类名称"
+        value="{{categoryInput}}"
+        bindinput="onCategoryInput"
+        bindconfirm="addCategory"
+      />
+      <button class="category-add-btn" size="mini" bindtap="addCategory">添加</button>
+    </view>
+  </view>
+
+  <view class="modal-btns">
+    <button class="modal-btn-cancel" bindtap="resetCategories">恢复默认</button>
+    <button class="modal-btn-cancel" bindtap="closeCategoryEdit">取消</button>
+    <button class="modal-btn-save" bindtap="saveCategories">保存</button>
+  </view>
+</view>
+
+<!-- 预算设置弹窗 -->
+<view class="modal-mask" wx:if="{{showBudgetEdit}}" bindtap="closeBudgetEdit"></view>
+<view class="modal-card" wx:if="{{showBudgetEdit}}">
+  <view class="modal-header">
+    <text class="modal-title">设置月度预算</text>
+    <view class="modal-close" bindtap="closeBudgetEdit">✕</view>
+  </view>
+
+  <view class="field">
+    <text class="label">预算月份</text>
+    <view class="picker">{{budgetMonth}}</view>
+  </view>
+
+  <view class="field">
+    <text class="label">预算金额</text>
+    <input
+      class="input"
+      type="digit"
+      placeholder="请输入月度预算"
+      value="{{budgetInput}}"
+      bindinput="onBudgetInput"
+    />
+  </view>
+
+  <view class="modal-btns">
+    <button class="modal-btn-cancel" bindtap="closeBudgetEdit">取消</button>
+    <button class="modal-btn-save" bindtap="saveBudget">保存</button>
+  </view>
+</view>

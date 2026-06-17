@@ -1,0 +1,171 @@
+/* ========== 类型切换 ========== */
+
+.type-group {
+  display: flex;
+  margin-top: 28rpx;
+  background: #f1f5f9;
+  border-radius: 20rpx;
+  padding: 6rpx;
+}
+
+.type-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18rpx 0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  transition: all 0.25s;
+}
+
+.type-item radio {
+  display: none;
+}
+
+.type-item-active {
+  background: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.type-expense-tab {
+  color: #94a3b8;
+}
+
+.type-income-tab {
+  color: #94a3b8;
+}
+
+.type-expense-tab.active {
+  color: #ef4444;
+}
+
+.type-income-tab.active {
+  color: #10b981;
+}
+
+/* ========== 金额输入 ========== */
+
+.amount-input-wrap {
+  margin-top: 32rpx;
+  text-align: center;
+}
+
+.amount-currency {
+  font-size: 48rpx;
+  font-weight: 300;
+  color: #94a3b8;
+  margin-right: 8rpx;
+}
+
+.amount-input {
+  display: inline-block;
+  min-width: 200rpx;
+  max-width: 500rpx;
+  text-align: center;
+  font-size: 56rpx;
+  font-weight: 800;
+  color: #1e293b;
+  background: transparent;
+  border-bottom: 4rpx solid #e2e8f0;
+  border-radius: 0;
+  padding: 12rpx 0;
+  letter-spacing: -1rpx;
+}
+
+.amount-input:focus {
+  border-bottom-color: #07c160;
+}
+
+/* ========== 表单卡片 ========== */
+
+.form-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 0;
+  margin-top: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 28rpx;
+  border-bottom: 1rpx solid #f8fafc;
+}
+
+.form-item:last-child {
+  border-bottom: 0;
+}
+
+.form-item-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1e293b;
+  flex-shrink: 0;
+}
+
+.form-item-value {
+  color: #64748b;
+  font-size: 28rpx;
+  text-align: right;
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.form-item-arrow {
+  color: #cbd5e1;
+  font-size: 28rpx;
+  margin-left: 12rpx;
+}
+
+.form-item picker {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ========== 备注 ========== */
+
+.note-wrap {
+  padding: 28rpx;
+}
+
+.note-input {
+  width: 100%;
+  min-height: 120rpx;
+  background: #f8fafc;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  border: 2rpx solid transparent;
+}
+
+.note-input:focus {
+  border-color: #07c160;
+  background: #fff;
+}
+
+/* ========== 保存按钮 ========== */
+
+.save-btn-wrap {
+  margin-top: 40rpx;
+  padding: 0 4rpx;
+}
+
+.save-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #1e293b, #334155) !important;
+  color: #fff !important;
+  border-radius: 24rpx !important;
+  font-size: 32rpx !important;
+  font-weight: 700 !important;
+  padding: 28rpx 0 !important;
+  border: none !important;
+  box-shadow: 0 12rpx 32rpx rgba(30, 41, 59, 0.25);
+  letter-spacing: 2rpx;
+}

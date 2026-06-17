@@ -1,0 +1,295 @@
+/* ========== 顶部操作栏 ========== */
+
+.list-header {
+  padding: 16rpx 4rpx 20rpx;
+}
+
+.list-title {
+  display: block;
+  font-size: 42rpx;
+  font-weight: 900;
+  color: #1e293b;
+  letter-spacing: -1rpx;
+}
+
+.list-sub {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #94a3b8;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10rpx;
+  align-items: center;
+}
+
+.share-btn-sm {
+  width: 52rpx;
+  height: 52rpx;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9 !important;
+  border-radius: 50% !important;
+  border: none !important;
+  font-size: 26rpx;
+  flex-shrink: 0;
+  margin-right: 6rpx;
+}
+
+.btn-sm {
+  padding: 12rpx 20rpx !important;
+  font-size: 24rpx !important;
+  border-radius: 12rpx !important;
+  font-weight: 500 !important;
+  border: none !important;
+}
+
+.btn-sm-green {
+  background: #e8f8ed !important;
+  color: #07c160 !important;
+}
+
+.btn-sm-gray {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+}
+
+/* ========== 月份选择器 ========== */
+
+.month-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+
+.month-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.month-label {
+  font-size: 26rpx;
+  color: #64748b;
+}
+
+.month-picker {
+  padding: 14rpx 24rpx;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #1e293b;
+  border: 2rpx solid #f1f5f9;
+}
+
+/* ========== 汇总卡片 ========== */
+
+.summary-card {
+  background: linear-gradient(145deg, #1e293b, #334155);
+  color: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 16rpx 40rpx rgba(30, 41, 59, 0.2);
+}
+
+.summary-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.summary-list {
+  display: flex;
+  margin-top: 24rpx;
+}
+
+.summary-item-list {
+  flex: 1;
+}
+
+.summary-item-list text {
+  display: block;
+  color: rgba(255,255,255,0.7);
+  font-size: 24rpx;
+}
+
+.summary-item-list text:last-child {
+  margin-top: 10rpx;
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* ========== 账单列表 ========== */
+
+.bill-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 14rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.03);
+  border-left: 6rpx solid #e2e8f0;
+  transition: transform 0.15s;
+}
+
+.bill-card:active {
+  transform: scale(0.99);
+}
+
+.bill-card-expense {
+  border-left-color: #ef4444;
+}
+
+.bill-card-income {
+  border-left-color: #10b981;
+}
+
+.bill-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bill-category {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.bill-type-tag {
+  display: inline-block;
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-left: 10rpx;
+  font-weight: 500;
+}
+
+.bill-type-tag-expense {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.bill-type-tag-income {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.bill-amount {
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.bill-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 16rpx;
+}
+
+.bill-date {
+  font-size: 24rpx;
+  color: #94a3b8;
+}
+
+.bill-note {
+  font-size: 24rpx;
+  color: #64748b;
+  margin-top: 4rpx;
+  max-width: 360rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bill-actions {
+  display: flex;
+  gap: 10rpx;
+}
+
+.bill-action-btn {
+  padding: 8rpx 16rpx !important;
+  font-size: 22rpx !important;
+  border-radius: 10rpx !important;
+  font-weight: 500 !important;
+  border: none !important;
+}
+
+/* ========== 搜索 ========== */
+
+.search-box {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f1f5f9;
+}
+
+.search-input {
+  margin-bottom: 14rpx;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  border: 2rpx solid transparent;
+}
+
+.search-input:focus {
+  border-color: #07c160;
+  background: #fff;
+}
+
+.search-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 14rpx;
+}
+
+.search-amount {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  padding: 18rpx 20rpx;
+  font-size: 26rpx;
+}
+
+.search-amount-sep {
+  color: #cbd5e1;
+  font-size: 28rpx;
+}
+
+.search-btns {
+  display: flex;
+  gap: 12rpx;
+}
+
+.btn-search {
+  background: #07c160 !important;
+  color: #fff !important;
+  font-size: 26rpx !important;
+  border-radius: 12rpx !important;
+  font-weight: 600 !important;
+}
+
+.btn-clear {
+  background: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  font-size: 26rpx !important;
+  border-radius: 12rpx !important;
+}
+
+.search-tip {
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  color: #07c160;
+  font-weight: 500;
+}

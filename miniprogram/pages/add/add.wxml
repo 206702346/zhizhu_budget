@@ -1,0 +1,70 @@
+<view class="page">
+  <view class="home-header">
+    <text class="home-title">记一笔</text>
+    <text class="home-desc">记录每笔收支，掌控财务状况</text>
+  </view>
+
+  <!-- 类型切换 -->
+  <radio-group bindchange="onTypeChange">
+    <view class="type-group">
+      <label class="type-item {{type === 'expense' ? 'type-item-active' : ''}}">
+        <radio value="expense" checked="{{type === 'expense'}}" />
+        <text class="{{type === 'expense' ? 'type-expense-tab active' : 'type-expense-tab'}}">支出</text>
+      </label>
+      <label class="type-item {{type === 'income' ? 'type-item-active' : ''}}">
+        <radio value="income" checked="{{type === 'income'}}" />
+        <text class="{{type === 'income' ? 'type-income-tab active' : 'type-income-tab'}}">收入</text>
+      </label>
+    </view>
+  </radio-group>
+
+  <!-- 金额输入 -->
+  <view class="amount-input-wrap">
+    <text class="amount-currency">¥</text>
+    <input
+      class="amount-input"
+      type="digit"
+      placeholder="0.00"
+      value="{{amount}}"
+      focus="{{true}}"
+      bindinput="onAmountInput"
+    />
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-card">
+    <view class="form-item">
+      <text class="form-item-label">分类</text>
+      <picker mode="selector" range="{{type === 'income' ? incomeCategories : expenseCategories}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="form-item-value">
+          {{category}}
+          <text class="form-item-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="form-item-label">日期</text>
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="form-item-value">
+          {{date}}
+          <text class="form-item-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="note-wrap">
+      <textarea
+        class="note-input"
+        placeholder="添加备注（选填）"
+        value="{{note}}"
+        bindinput="onNoteInput"
+      ></textarea>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn-wrap">
+    <button class="save-btn" bindtap="saveBill" loading="{{saving}}">保存账单</button>
+  </view>
+</view>

@@ -1,0 +1,146 @@
+<view class="page">
+  <view class="home-header">
+    <view>
+      <text class="home-title">小账本</text>
+      <text class="home-desc">记录日常收支，养成理财习惯</text>
+    </view>
+    <button class="share-btn" open-type="share">
+      <text style="font-size:36rpx;">📤</text>
+    </button>
+  </view>
+
+  <!-- 余额卡片 -->
+  <view class="balance-card">
+    <text class="balance-label">本月结余</text>
+    <text class="balance-money">¥{{balance}}</text>
+
+    <view class="balance-row">
+      <view class="balance-item">
+        <text class="balance-small-label">收入</text>
+        <text class="balance-income">¥{{income}}</text>
+      </view>
+      <view class="balance-line"></view>
+      <view class="balance-item">
+        <text class="balance-small-label">支出</text>
+        <text class="balance-expense">¥{{expense}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预算进度 -->
+  <view class="budget-card" wx:if="{{budgetAmount > 0}}">
+    <view class="budget-card-top">
+      <text class="budget-card-label">📌 本月预算 ¥{{budgetAmount}}</text>
+      <text class="budget-card-percent {{budgetOver ? 'budget-over' : ''}}">{{budgetPercent}}%</text>
+    </view>
+    <view class="budget-card-bar-wrap">
+      <view class="budget-card-bar">
+        <view class="budget-card-inner {{budgetOver ? 'bar-over' : ''}}" style="width: {{budgetPercent}}%;"></view>
+      </view>
+    </view>
+    <view class="budget-card-bottom">
+      <text>已支出 ¥{{expense}}</text>
+      <text class="{{budgetOver ? 'budget-over' : 'budget-left'}}">剩余 ¥{{budgetRemain}}</text>
+    </view>
+    <view wx:if="{{budgetOver}}" class="budget-card-warn">⚠️ 已超出预算，请注意控制支出</view>
+  </view>
+
+  <!-- 本月概况 -->
+  <view class="card">
+    <view class="row">
+      <text class="section-title">本月概况</text>
+      <text class="subtle">{{monthCount}} 笔</text>
+    </view>
+
+    <view class="stat-box">
+      <view class="stat-item">
+        <text class="stat-num">{{monthCount}}</text>
+        <text class="stat-label">记录笔数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num type-income">¥{{income}}</text>
+        <text class="stat-label">本月收入</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num type-expense">¥{{expense}}</text>
+        <text class="stat-label">本月支出</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="card">
+    <view class="row">
+      <text class="section-title">快捷操作</text>
+    </view>
+    <view class="quick-row">
+      <button class="quick-btn primary-btn" bindtap="goAdd">＋ 记一笔</button>
+      <button class="quick-btn btn-outline" bindtap="goList">查看账单</button>
+    </view>
+  </view>
+
+  <!-- 支出分类饼图 -->
+  <view class="card" wx:if="{{showPieChart}}">
+    <view class="row">
+      <text class="section-title">支出分类占比</text>
+      <text class="subtle">本月</text>
+    </view>
+    <view class="chart-wrap">
+      <canvas type="2d" id="pieCanvas" class="chart-canvas"></canvas>
+    </view>
+  </view>
+
+  <!-- 月度趋势柱状图 -->
+  <view class="card" wx:if="{{showBarChart}}">
+    <view class="row">
+      <text class="section-title">月度收支趋势</text>
+      <text class="subtle">近6个月</text>
+    </view>
+    <view class="chart-wrap bar-wrap">
+      <canvas type="2d" id="barCanvas" class="chart-canvas"></canvas>
+    </view>
+  </view>
+
+  <!-- 支出分类统计 -->
+  <view class="card">
+    <view class="row">
+      <text class="section-title">支出分类排行</text>
+      <text class="subtle">本月</text>
+    </view>
+
+    <block wx:if="{{categoryStats.length}}">
+      <view class="category-item" wx:for="{{categoryStats}}" wx:key="name">
+        <view class="category-left">
+          <view class="category-dot dot-{{index}}"></view>
+          <text>{{item.name}}</text>
+        </view>
+        <text class="amount-expense">¥{{item.amount}}</text>
+      </view>
+    </block>
+    <view wx:else class="empty-text">暂无本月支出数据</view>
+  </view>
+
+  <!-- 最近账单 -->
+  <view class="card">
+    <view class="row">
+      <text class="section-title">最近账单</text>
+      <text class="subtle" bindtap="goList">更多 ›</text>
+    </view>
+
+    <block wx:if="{{recentBills.length}}">
+      <view class="recent-item" wx:for="{{recentBills}}" wx:key="_id">
+        <view>
+          <view>
+            <text>{{item.category}}</text>
+            <text class="subtle"> · {{item.type === 'income' ? '收入' : '支出'}}</text>
+          </view>
+          <text class="subtle">{{item.date}}</text>
+        </view>
+        <text class="{{item.type === 'income' ? 'amount-income' : 'amount-expense'}}">
+          {{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}
+        </text>
+      </view>
+    </block>
+    <view wx:else class="empty-text">暂无数据，先去记一笔吧</view>
+  </view>
+</view>
